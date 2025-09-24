@@ -1,0 +1,50 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "3:202989785076441392",
+      "lastPropertyId": "2:1405638754563055329",
+      "name": "FolderPathEntity",
+      "properties": [
+        {
+          "id": "1:7723007145607370460",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1405638754563055329",
+          "name": "path",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:202989785076441392",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    3059967523835835008,
+    276343024614356600
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    4526747477504274627,
+    3628661722777011639,
+    4738870787765072502,
+    6246985951761302473,
+    7571024112495273133,
+    7899709539417131387,
+    7514187124162917337,
+    7996433342778773472,
+    590671320434861678
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
