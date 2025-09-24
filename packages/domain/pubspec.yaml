@@ -1,0 +1,30 @@
+name: domain
+description: "A new Flutter package project."
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.6.1
+  flutter: 3.29.0
+
+dependencies:
+  equatable: ^2.0.7
+  flutter:
+    sdk: flutter
+
+  # Internal packages
+  local:
+    path: ../local
+  remote:
+    path: ../remote
+    
+  result:
+    path: ../result
+  riverpod: ^2.6.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+flutter:
+  uses-material-design: false
