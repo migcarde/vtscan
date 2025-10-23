@@ -9,6 +9,8 @@ import 'package:vtscan/features/overlay_loader/providers/overlay_provider.dart';
 import 'package:vtscan/l10n/app_localizations.dart';
 import 'package:vtscan/styles/app_dimens.dart';
 import 'package:vtscan/widgets/base/base_scaffold.dart';
+import 'package:vtscan/widgets/confirmation_bottom_dialog.dart';
+import 'package:vtscan/widgets/primary_button/primary_button_type.dart';
 
 class Home extends ConsumerWidget {
   const Home({super.key});
@@ -118,7 +120,27 @@ class Home extends ConsumerWidget {
                 return FolderTile(
                   path: folderPath.path,
                   onTap: () {
-                    ref.read(homeProvider.notifier).removeFolder(folderPath);
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return ConfirmationBottomDialog(
+                          onTapConfirm: () async {
+                            ref
+                                .read(homeProvider.notifier)
+                                .removeFolder(folderPath);
+                            Navigator.of(context).pop();
+                          },
+                          onTapCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                          title: l10n.are_you_sure,
+                          description: l10n.this_action_cannot_be_undone,
+                          confirmationText: l10n.delete,
+                          cancelText: l10n.cancel,
+                          confirmationButtonType: PrimaryButtonType.error,
+                        );
+                      },
+                    );
                   },
                 );
               },
