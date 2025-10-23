@@ -2,10 +2,15 @@ import 'package:local/local/core/object_box/object_box.dart';
 import 'package:local/local/folder_path/folder_path_local_datasource.dart';
 import 'package:local/local/folder_path/models/folder_path_local_entity.dart';
 
-class FolderPathLocalDatasourceImpl implements FolderPathLocalDatasource {
+class FolderPathLocalDatasourceImpl extends FolderPathLocalDatasource {
   final ObjectBox objectBox;
 
-  FolderPathLocalDatasourceImpl({required this.objectBox});
+  @override
+  void build() {}
+
+  FolderPathLocalDatasourceImpl({
+    required this.objectBox,
+  }) : super();
 
   @override
   Future<void> saveFolderPath(FolderPathLocalEntity folderPath) async =>

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:domain/domain.dart';
+import 'package:domain/repositories/folder_path/models/folder_path_entity.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +49,7 @@ class HomeNotifier extends AsyncNotifier<HomeViewModel> {
             result.ifSuccess((folderPaths) {
               state = AsyncData(
                 state.value!.copyWith(
-                  toastState: HomeToastState.saveFolderSuccess,
+                  toastState: HomeStatus.saveFolderSuccess,
                   folderPaths: folderPaths,
                 ),
               );
@@ -58,9 +59,7 @@ class HomeNotifier extends AsyncNotifier<HomeViewModel> {
         (failure) {
           if (state.value != null) {
             state = AsyncData(
-              state.value!.copyWith(
-                toastState: HomeToastState.saveFolderFailure,
-              ),
+              state.value!.copyWith(toastState: HomeStatus.saveFolderFailure),
             );
           }
         },
@@ -76,6 +75,31 @@ class HomeNotifier extends AsyncNotifier<HomeViewModel> {
     // Handle result
     result.ifSuccess((success) {
       debugPrint('aux: $success');
+    });
+  }
+
+  Future<void> removeFolder(FolderPathEntity folderPath) async {
+    state.whenData((data) async {
+      state = AsyncData(data.copyWith(toastState: HomeStatus.loading));
+      final result = await ref
+          .read(deleteFolderPathProvider)
+          .call(folderPath.id);
+
+      result.when(
+        (_) async {
+          final folderPaths = [...data.folderPaths];
+          folderPaths.remove(folderPath);
+          state = AsyncData(
+            data.copyWith(
+              toastState: HomeStatus.deleteFolderSuccess,
+              folderPaths: folderPaths,
+            ),
+          );
+        },
+        (_) => state = AsyncData(
+          data.copyWith(toastState: HomeStatus.deleteFolderFailure),
+        ),
+      );
     });
   }
 }

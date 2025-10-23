@@ -1,33 +1,34 @@
 import 'package:domain/repositories/folder_path/models/folder_path_entity.dart';
 import 'package:equatable/equatable.dart';
 
-enum HomeToastState {
+enum HomeStatus {
   none,
   saveFolderSuccess,
   saveFolderFailure,
   deleteFolderSuccess,
   deleteFolderFailure,
+  loading,
 }
 
 class HomeViewModel extends Equatable {
   final List<FolderPathEntity> folderPaths;
-  final HomeToastState toastState;
+  final HomeStatus status;
 
   const HomeViewModel({
     this.folderPaths = const [],
-    this.toastState = HomeToastState.none,
+    this.status = HomeStatus.none,
   });
 
   @override
-  List<Object?> get props => [folderPaths, toastState];
+  List<Object?> get props => [folderPaths, status];
 
   HomeViewModel copyWith({
     List<FolderPathEntity>? folderPaths,
-    HomeToastState? toastState,
+    HomeStatus? toastState,
   }) {
     return HomeViewModel(
       folderPaths: folderPaths ?? this.folderPaths,
-      toastState: toastState ?? this.toastState,
+      status: toastState ?? this.status,
     );
   }
 }

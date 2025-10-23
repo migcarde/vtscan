@@ -3,7 +3,6 @@ import 'package:domain/repositories/folder_path/folder_path_repository.dart';
 import 'package:domain/repositories/folder_path/folder_path_repository_impl.dart';
 import 'package:domain/repositories/virus_total/virus_total_repository.dart';
 import 'package:domain/repositories/virus_total/virus_total_repository_impl.dart';
-import 'package:domain/use_cases/folder_path/get_folder_paths.dart';
 import 'package:domain/use_cases/virus_total/post_file/post_file.dart';
 import 'package:local/local/core/local_providers.dart';
 import 'package:riverpod/riverpod.dart';

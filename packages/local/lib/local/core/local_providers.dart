@@ -5,16 +5,14 @@ import 'package:local/local/folder_path/folder_path_local_datasource_impl.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:riverpod/riverpod.dart';
 
-final _objectBoxProviderImpl = AsyncNotifierProvider<ObjectBoxImpl, Store>(
-  () => ObjectBoxImpl(),
+final objectBoxProvider = StateNotifierProvider<ObjectBox, Store?>(
+  (ref) => ObjectBoxImpl(),
 );
-
-final objectBoxProvider =
-    Provider<ObjectBox>((ref) => ref.watch(_objectBoxProviderImpl.notifier));
 
 final folderPathLocalDatasourceProvider =
     Provider<FolderPathLocalDatasource>((ref) {
-  final objectBox = ref.watch(objectBoxProvider);
+  final objectBox = ref.watch(objectBoxProvider.notifier);
+  objectBox.init();
 
   return FolderPathLocalDatasourceImpl(objectBox: objectBox);
 });

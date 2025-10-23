@@ -2,6 +2,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vtscan/features/home/home.dart';
+import 'package:vtscan/features/overlay_loader/overlay_loader_wrapper.dart';
 import 'package:vtscan/l10n/app_localizations.dart';
 
 void main() async {
@@ -23,7 +24,7 @@ class MainApp extends StatelessWidget {
       ),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: Home(),
+      home: OverlayLoaderWrapper(child: Home()),
     );
   }
 }
