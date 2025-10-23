@@ -1,4 +1,4 @@
-import 'package:local/local/core/local_providers.dart';
+import 'package:local/local.dart';
 import 'package:riverpod/riverpod.dart';
 
 export 'use_cases/use_cases.dart';
@@ -12,6 +12,8 @@ class Domain {
 
   static Future<void> init({required String apiKey}) async {
     _instance = Domain._internal(apiKey);
+
+    await ProviderContainer().read(objectBoxProvider.notifier);
   }
 
   Domain._internal(this.apiKey);

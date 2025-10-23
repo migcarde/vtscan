@@ -5,6 +5,7 @@ import 'package:vtscan/features/home/models/home_view_model.dart';
 import 'package:vtscan/features/home/providers/home_provider.dart';
 import 'package:vtscan/features/home/widgets/choose_type_to_scan_dialog.dart';
 import 'package:vtscan/features/home/widgets/folder_tile.dart';
+import 'package:vtscan/features/overlay_loader/providers/overlay_provider.dart';
 import 'package:vtscan/l10n/app_localizations.dart';
 import 'package:vtscan/styles/app_dimens.dart';
 import 'package:vtscan/widgets/base/base_scaffold.dart';
@@ -16,15 +17,16 @@ class Home extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    ref.listen(homeProvider.selectAsync((data) => data.toastState), (
+    ref.listen(homeProvider.selectAsync((data) => data.status), (
       previous,
       next,
     ) async {
       final state = await next;
 
       if (context.mounted) {
+        ref.read(overlayLoaderNotifier.notifier).hide();
         switch (state) {
-          case HomeToastState.saveFolderSuccess:
+          case HomeStatus.saveFolderSuccess:
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -37,7 +39,7 @@ class Home extends ConsumerWidget {
               ),
             );
             break;
-          case HomeToastState.saveFolderFailure:
+          case HomeStatus.saveFolderFailure:
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -50,7 +52,7 @@ class Home extends ConsumerWidget {
               ),
             );
             break;
-          case HomeToastState.deleteFolderSuccess:
+          case HomeStatus.deleteFolderSuccess:
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -59,10 +61,11 @@ class Home extends ConsumerWidget {
                     color: context.theme.colorScheme.onPrimary,
                   ),
                 ),
+                backgroundColor: context.theme.primaryColor,
               ),
             );
             break;
-          case HomeToastState.deleteFolderFailure:
+          case HomeStatus.deleteFolderFailure:
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -74,7 +77,10 @@ class Home extends ConsumerWidget {
               ),
             );
             break;
-          case HomeToastState.none:
+          case HomeStatus.loading:
+            ref.read(overlayLoaderNotifier.notifier).show();
+            break;
+          case HomeStatus.none:
             break;
         }
       }
@@ -112,12 +118,12 @@ class Home extends ConsumerWidget {
                 return FolderTile(
                   path: folderPath.path,
                   onTap: () {
-                    //TODO: Add navigation to details
+                    ref.read(homeProvider.notifier).removeFolder(folderPath);
                   },
                 );
               },
               separatorBuilder: (context, index) =>
-                  const SizedBox(width: AppDimens.m),
+                  const SizedBox(height: AppDimens.m),
               itemCount: data.folderPaths.length,
             ),
             error: (_, _) => const SizedBox(),
